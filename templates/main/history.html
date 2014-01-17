@@ -1,0 +1,107 @@
+{% extends "main/base.html" %}
+{% block extrahead %}
+<script type="text/javascript" src="{{STATIC_URL}}main/js/server.js"></script>
+<style>
+
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+<nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-ex1-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" id="welcome-user" href="/"></a>
+        </div>
+        <!-- Place everything within .navbar-collapse to hide it until above 768px -->
+        <div class="navbar-collapse collapse navbar-ex1-collapse">
+
+            <div id="navbtns">
+                {% csrf_token %}
+                <div onclick="signOut();">
+                    <form class="navbar-form navbar-right">
+                        <button id="signOut" type="button" class="btn navbar-btn">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+
+                <form id="profile" class="navbar-form navbar-right" action="/uprofile"
+                      method="POST">{% csrf_token %}
+                    <input type="hidden" id="username" name="username" value="">
+                    <button type="submit" class="btn btn-inverse navbar-btn">Parking Profile</button>
+                </form>
+
+                <form id="editAccount" class="navbar-form navbar-right" action="/uedit">
+                    <button type="button" onclick="location.href='/uedit';"
+                            class="btn btn-inverse navbar-btn">
+                        Edit Account
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </nav>
+
+<div class="container">
+
+  	<div class="panel panel-default page-curl bottom-shadow">
+<div class="panel-heading">
+<h2>Parking Transaction History</h2>
+</div>
+  <div class="">
+    <table class="table table-striped table-hover table-responsive" id="no-more-tables">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Garage</th>
+            <th class="text-center">Space</th>
+            <th class="text-center">Start Time</th>
+            <th class="text-center">End Time</th>
+            <th class="text-center">Rate</th>
+            <th class="text-center">Total Cost</th>
+            <th class="text-center">License Plate</th>
+            <th class="text-center">Payment</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if history %}
+        {% load print_stuff %}
+        {% for i in history reversed%}
+            <tr>
+                <td data-title="ID">{{i.order_number|print_id}}</td>
+                <td data-title="Garage">{{i.garage}}</td>
+                <td data-title="Space">{{i.space}}</td>
+                <td data-title="StartTime">{{i.start_time|print_timestamp}}</td>
+                <td data-title="EndTime">{{i.end_time|print_timestamp}}</td>
+                <td data-title="Rate">{{i.rate|print_rate:i.granularity}}</td>
+                <td data-title="Cost">{{i.total_cost|print_cost}}</td>
+                <td data-title="LP">{{i.participant_id|print_lp }}</td>
+                <td data-title="Payment">{{ i.payment }}</td>
+            </tr>
+        {% endfor %}
+        {% else %}
+        <p>You don't have any parking history.</p>
+        {% endif %}
+    </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+<div class="footer">
+A product of xmobile.berkeley.edu
+</div>
+<script type="text/javascript" src="{{STATIC_URL}}main/js/signout.js"></script>
+<script>
+var u = window.localStorage["username"];
+$("#welcome-user").text(welcome_text + u);
+</script>
+{% endblock %}

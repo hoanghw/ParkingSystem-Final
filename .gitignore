@@ -1,0 +1,7 @@
+*.class
+*.pyc
+*.pyo
+.idea/
+local_settings.py
+.project
+

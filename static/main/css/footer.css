@@ -1,0 +1,37 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #1b335f;
+}
+
+.container {
+    text-align: center;
+}
+
+.wrap {
+    min-height: 100%;
+}
+
+.main {
+    overflow: auto;
+    padding-bottom: 0px; /* must be same height as the footer */
+}
+
+.footer {
+    position: relative;
+    margin-top: -24px; /* negative value of footer height */
+    height: 24px;
+    clear: both;
+    color: #f4c446;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    z-index: -7;
+}
+
+input{
+    text-align: center;
+}

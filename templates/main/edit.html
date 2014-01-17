@@ -1,0 +1,117 @@
+{% extends "main/base.html" %}
+{% block extrahead %}
+<script type="text/javascript" src="{{STATIC_URL}}main/js/server.js"></script>
+<style>
+.btn-block{
+    width: 70%;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-ex1-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" id="welcome-user" href="/"></a>
+        </div>
+        <!-- Place everything within .navbar-collapse to hide it until above 768px -->
+        <div class="navbar-collapse collapse navbar-ex1-collapse">
+
+            <div id="navbtns">
+                {% csrf_token %}
+                <div onclick="signOut();">
+                    <form class="navbar-form navbar-right">
+                        <button id="signOut" type="button" class="btn navbar-btn">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+
+                <form id="parkingHistory" class="navbar-form navbar-right" action="/uhistory"
+                      method="POST">{% csrf_token %}
+                    <input type="hidden" id="username" name="username" value="">
+                    <button type="submit" class="btn btn-inverse navbar-btn">Parking History</button>
+                </form>
+
+                <form id="profile" class="navbar-form navbar-right" action="/uprofile"
+                      method="POST">{% csrf_token %}
+                    <input type="hidden" id="username" name="username" value="">
+                    <button type="submit" class="btn btn-inverse navbar-btn">Parking Profile</button>
+                </form>
+            </div>
+
+        </div>
+    </nav>
+
+<div class="container page-curl shadow-bottom">
+
+        <div>
+        <strong>Changing payment method is currently disabled</strong>
+        </div>
+
+        <div class="row">
+        <form name="check-out">{% csrf_token %}
+            <input type="hidden" id="user-check" name="user" value="">
+            <button id="register_payment" type="submit" class="form-control btn-yellow btn btn-block">Register New Payment Method</button>
+        </form>
+        </div>
+        <hr>
+
+        <div class="well well-sm" id="message" style="display:none;"></div>
+
+        <div class="row input-group" id="lpInput" style="display:none;">
+            <input type="text" class="form-control" id="lp" placeholder="Enter new license plate">
+            <span class="input-group-btn">
+                <button class="btn btn-red" type="button" onclick="changeLP();">Submit</button>
+            </span>
+        </div>
+        <br>
+        <div class="row">
+        <button id="edit_license" type="submit" onclick="$('#lpInput').show();$('#message').hide();" class="form-control btn btn-yellow btn-block">Change Licence Plate</button>
+        </div>
+        <br>
+</div>
+
+<div class="footer">
+A product of xmobile.berkeley.edu
+</div>
+<script type="text/javascript" src="{{STATIC_URL}}main/js/signout.js"></script>
+<script>
+var u = window.localStorage['username'];
+
+if (u){
+    $("#username").val(u);
+    $("#user-check").val(u);
+    $("#welcome-user").text(welcome_text + u);
+}else{
+    signOut();
+}
+
+function changeLP(){
+    var lp = $("#lp").val();
+    if (lp){
+        $.get(SERVER_URL+'uchangelp',{data:JSON.stringify({username: window.localStorage['username'], newlp: lp})}, function(data, textStatus, jqXHR){
+
+        },"json").done(function(){
+                $("#message").show();
+                $("#message").text("Your license plate has been changed.");
+                $("#lpInput").hide();
+                $("#lp").val("");
+            }).fail(function(){
+                $("#message").show();
+                $("#message").text("Error.  Please try again!");
+                $("#lp").val("");
+            });
+    }else{
+        $("#message").show();
+        $("#message").text("Please enter your license plate");
+    }
+}
+</script>
+{% endblock %}
