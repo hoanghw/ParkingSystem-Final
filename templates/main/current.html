@@ -1,9 +1,8 @@
 {% extends "main/base.html" %}
 {% block extrahead %}
 <script type="text/javascript" src="{{STATIC_URL}}main/js/server.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}main/js/bootstrap-typeahead.js"></script>
 <style>
-
-
 </style>
 {% endblock %}
 
@@ -36,13 +35,20 @@
     </nav>
 
 <div class="container">
+    <div class="well well-sm">
 
-  	<div class="panel panel-default page-curl bottom-shadow">
+        <input class="form-control" id="search-lps" type="text" placeholder="Enter license plate"/>
+
+    </div>
+    <div class="well well-sm" id="search-results">No results</div>
+
+
+  <div class="panel panel-default page-curl bottom-shadow">
 <div class="panel-heading">
 <h2>Current Parking Records</h2>
 </div>
-  <div class="">
-    <table class="table table-striped table-hover table-responsive" id="no-more-tables">
+  <div>
+    <table id="my-table" class="table table-striped table-hover table-responsive" id="no-more-tables">
     <thead>
         <tr>
             <th class="text-center">ID</th>
@@ -91,5 +97,35 @@ var u = window.localStorage["username"];
 $(".main").css("visibility","visible");
 $("#logo").hide();
 $("#welcome-user").text(welcome_text + "Admin");
+
+var source = ['12ab', '12bc', '56ba'];
+var table = document.getElementById('my-table');
+for (var r = 0, n = table.rows.length; r < n; r++) {
+    var m = table.rows[r].cells.length;
+    console.log(table.rows[r].cells[m-1].innerHTML);
+    source.push(table.rows[r].cells[m-1].innerHTML);
+}
+$(document).ready(function() {
+    var mySource = [{ id: 1, name: 'Terry'}, { id: 2, name: 'Mark'}, { id: 3, name: 'Jacob'}];
+    $('#search-lps').typeahead({
+        minLength: 1
+        },
+        {
+        name: 'legal-lps',
+        source: function(query, process){
+            var results=[];
+            for (i in source)
+            {
+                if (source[i].toUpperCase().indexOf(query.toUpperCase()) == 0)
+                    results.push(source[i]);
+            }
+            if (results.length == 0)
+                results.push("Not valid");
+            $('#search-results').text(results);
+            return results;
+        }
+        });
+});
+
 </script>
 {% endblock %}

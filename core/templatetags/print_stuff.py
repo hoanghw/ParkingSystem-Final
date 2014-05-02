@@ -1,6 +1,9 @@
 from django import template
 import datetime
 from core.models import HistoryTransaction, LicensePlate, Participant
+from django.core.serializers import serialize
+from django.db.models.query import QuerySet
+import simplejson
 register = template.Library()
 
 def print_timestamp(timestamp):
@@ -42,3 +45,9 @@ def print_lp(participant_id):
         if lp:
             return lp[0].text
     return 'None'
+
+@register.filter("jsonify")
+def jsonify(object):
+    if isinstance(object, QuerySet):
+        return serialize('json', object)
+    return simplejson.dumps(object)

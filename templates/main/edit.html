@@ -56,9 +56,9 @@
         </div>
 
         <div class="row">
-        <form name="check-out">{% csrf_token %}
-            <input type="hidden" id="user-check" name="user" value="">
-            <button id="register_payment" type="submit" class="form-control btn-yellow btn btn-block">Register New Payment Method</button>
+        <form name="check-out" action="http://vpp.berkeley.edu:81/checkout.php" method="POST">{% csrf_token %}
+            <input type="hidden" id="user" name="user" value="">
+            <button id="register_payment" type="button" class="form-control btn-yellow btn btn-block">Register New Payment Method</button>
         </form>
         </div>
         <hr>
@@ -87,7 +87,7 @@ var u = window.localStorage['username'];
 
 if (u){
     $("#username").val(u);
-    $("#user-check").val(u);
+    $("#user").val(u);
     $("#welcome-user").text(welcome_text + u);
 }else{
     signOut();
