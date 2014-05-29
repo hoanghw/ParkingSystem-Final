@@ -85,15 +85,15 @@
       </div>
       <div class="modal-footer">
         <div class="btn-group">
-            <form id="payment" name="transaction" action="http://vpp.berkeley.edu:81/transaction.php" method="POST">
+            <form id="payment" name="transaction" action="http://23.23.166.34:81/transaction.php" method="POST">
                 <button type="button" class="btn btn-default" class="close" data-dismiss="modal">Cancel</button>
                 <input type="hidden" id="user-trans" name="user" value="">
                 <input type="hidden" id="token-trans" name="token" value="">
                 <input type="hidden" id="order-number" name="orderNumber" value="1">
                 <input type="hidden" id="payment-type" name="paymentType" value="cctoken">
                 <input type="hidden" id="amount" name="amount" value="">
-                <button type="button" id="confirmed" class="btn btn-primary">Payment Gateway</button>
-                <!--<button type="button" class="btn-primary btn" id="confirmed">Confirm</button>-->
+                <!--<button type="button" id="confirmed" class="btn btn-primary">Payment Gateway</button>i-->
+                <button type="button" class="btn-primary btn" id="confirmed">Confirm</button>
             </form>
         </div>
       </div><!-- /.modal-footer -->

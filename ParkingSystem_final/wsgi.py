@@ -21,6 +21,12 @@ import os
 # os.environ["DJANGO_SETTINGS_MODULE"] = "ParkingSystem_final.settings"
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ParkingSystem_final.local_settings")
 
+SITE_DIR = '/opt/django-trunk/ParkingSystem-Final'
+import site
+site.addsitedir(SITE_DIR) 
+import sys
+sys.path.append(SITE_DIR)
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
