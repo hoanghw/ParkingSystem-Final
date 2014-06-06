@@ -85,7 +85,7 @@
       </div>
       <div class="modal-footer">
         <div class="btn-group">
-            <form id="payment" name="transaction" action="http://23.23.166.34:81/transaction.php" method="POST">
+            <form id="payment" name="transaction">
                 <button type="button" class="btn btn-default" class="close" data-dismiss="modal">Cancel</button>
                 <input type="hidden" id="user-trans" name="user" value="">
                 <input type="hidden" id="token-trans" name="token" value="">
@@ -119,10 +119,9 @@ var u = window.localStorage['username'];
 var $welcome_user = $("#welcome-user");
 
 if (u){
-    welcome_text += u;
     $("#username").val(u);
     $("#user-check").val(u);
-    $welcome_user.text(welcome_text);
+    $welcome_user.text(welcome_text + u);
     getStatus();
     loading_css.hide();
 }else{

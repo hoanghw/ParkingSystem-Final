@@ -5,7 +5,7 @@ var PER_DAY = 1;
 var PER_HOUR = 2;
 var PER_QUARTER = 3;
 var DEFAULT_DURATION_HOUR = 2;
-var welcome_text = "VPP| ";
+var welcome_text = "VPP|";
 var CONFIRMATION_EXPIRE = 30*60*1000; //miliseconds
 
 function reloadPage(){
